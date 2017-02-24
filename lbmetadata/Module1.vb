@@ -3,6 +3,15 @@ Imports Microsoft.WindowsAPICodePack
 Imports Microsoft.VisualStudio.Shell.Interop
 Imports Shell32
 Imports System.IO
+Imports iTextSharp.awt
+Imports iTextSharp.pdfa
+Imports iTextSharp.testutils
+Imports iTextSharp.text
+Imports iTextSharp.xmp
+Imports iTextSharp.xtra
+
+
+
 
 
 
@@ -14,11 +23,31 @@ Module Module1
     Sub Main()
         Dim FileName As String
         FileName = "e:\superbowls.xlsx"
-        Dim Properties As Dictionary(Of Integer, KeyValuePair(Of String, String)) = GetFileProperties(FileName)
-        For Each FileProperty As KeyValuePair(Of Integer, KeyValuePair(Of String, String)) In Properties
-            Console.WriteLine("{0}: {1}", FileProperty.Value.Key, FileProperty.Value.Value)
+        Dim reader As New pdf.PdfReader(".\testdocs\test.pdf")
+
+        'Dim Properties As Dictionary(Of Integer, KeyValuePair(Of String, String)) = GetFileProperties(FileName)
+        Dim properties As Dictionary(Of String, String).ValueCollection = reader.Info.Values
+        Dim names As Dictionary(Of String, String).KeyCollection = reader.Info.Keys
+        For Each FileProperty As String In properties
+            Console.WriteLine(FileProperty)
         Next
+        For Each keyval As String In names
+            Console.WriteLine(keyval)
+        Next
+
         Console.ReadKey()
+        'Console.WriteLine(reader.Info("D"))
+        'Console.ReadKey()
+
+
+
+
+
+
+
+
+
+
     End Sub
 
     Public Function GetFileProperties(ByVal FileName As String) As Dictionary(Of Integer, KeyValuePair(Of String, String))
